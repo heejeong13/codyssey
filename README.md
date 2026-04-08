@@ -10,18 +10,15 @@
 - Git : 2.53.0
 
 ## 3. 수행 체크리스트
-- [x] 터미널 기본 조작 및 폴더 구성
-- [] 권한 변경 실습
-- [] Docker 설치/점검
-- [] hello-world 실행
-- [] Dockerfile 빌드/실행
-- [] 포트 매핑 접속(2회)
-- [] 바인드 마운트 반영
-- [] 볼륨 영속성
-- [] Git 설정 + VSCode GitHub 연동
+- [x] 터미널 조작 로그
+- [x] Docker 운영/검증 로그
+- [] Dockerfile 기반 웹 서버 컨테이너
+- [] 포트 매핑 접속 증거
+- [] 바인드 마운트 반영 + 볼륨 영속성 증거
+- [] Git 설정 및 GitHub/VSCode 연동 증거
 
 ## 4. 수행로그
-### 터미널 기본 조작 및 폴더 구성
+### 터미널 조작 로그 기록
 **현재 위치 확인**
 ```bash
 $ pwd
@@ -110,7 +107,7 @@ $ cat test.txt
 hello
 ```
 
-### 권한 변경 실습
+### 권한 실습 및 증거 기록
 >**[파일종류][소유자 권한][그룹 권한][기타 사용자 권한]**  
 >*첫 번째 문자: 파일 종류*  
 >\- : 일반 파일 (file)  
@@ -133,15 +130,304 @@ total 0
 drw-r--r--  2 kosigi198323  kosigi198323  64  4  8 20:16 rename
 ```
 
+### Docker 설치 및 기본 점검  
+*Docker 버전 확인 결과*
+```bash
+$ docker --version
+Docker version 28.5.2, build ecc6942
+```
+*Docker 데몬 동작 여부 확인 결과*
+> 데몬이 실행되지 않으면 Cannot connect to the Docker daemon라고 출력 됨
+```bash 
+#데몬 구동 실패 시
+Client:
+ Version:    28.5.2
+ Context:    orbstack
+ Debug Mode: false
+ Plugins:
+  buildx: Docker Buildx (Docker Inc.)
+    Version:  v0.29.1
+    Path:     /Users/kosigi198323/.docker/cli-plugins/docker-buildx
+  compose: Docker Compose (Docker Inc.)
+    Version:  v2.40.3
+    Path:     /Users/kosigi198323/.docker/cli-plugins/docker-compose
+
+Server:
+Cannot connect to the Docker daemon at unix:///Users/kosigi198323/.orbstack/run/docker.sock. Is the docker daemon running?
+```
+```bash
+#데몬 정상 구동 시
+$ docker info
+Client:
+ Version:    28.5.2
+ Context:    orbstack
+ Debug Mode: false
+ Plugins:
+  buildx: Docker Buildx (Docker Inc.)
+    Version:  v0.29.1
+    Path:     /Users/kosigi198323/.docker/cli-plugins/docker-buildx
+  compose: Docker Compose (Docker Inc.)
+    Version:  v2.40.3
+    Path:     /Users/kosigi198323/.docker/cli-plugins/docker-compose
+
+Server:
+ Containers: 0
+  Running: 0
+  Paused: 0
+  Stopped: 0
+ Images: 0
+ Server Version: 28.5.2
+ Storage Driver: overlay2
+  Backing Filesystem: btrfs
+  Supports d_type: true
+  Using metacopy: false
+  Native Overlay Diff: true
+  userxattr: false
+ Logging Driver: json-file
+ Cgroup Driver: cgroupfs
+ Cgroup Version: 2
+ Plugins:
+  Volume: local
+  Network: bridge host ipvlan macvlan null overlay
+  Log: awslogs fluentd gcplogs gelf journald json-file local splunk syslog
+ CDI spec directories:
+  /etc/cdi
+  /var/run/cdi
+ Swarm: inactive
+ Runtimes: io.containerd.runc.v2 runc
+ Default Runtime: runc
+ Init Binary: docker-init
+ containerd version: 1c4457e00facac03ce1d75f7b6777a7a851e5c41
+ runc version: d842d7719497cc3b774fd71620278ac9e17710e0
+ init version: de40ad0
+ Security Options:
+  seccomp
+   Profile: builtin
+  cgroupns
+ Kernel Version: 6.17.8-orbstack-00308-g8f9c941121b1
+ Operating System: OrbStack
+ OSType: linux
+ Architecture: x86_64
+ CPUs: 6
+ Total Memory: 15.67GiB
+ Name: orbstack
+ ID: 5526200e-e51a-4c27-907d-02b9338f72a1
+ Docker Root Dir: /var/lib/docker
+ Debug Mode: false
+ Experimental: false
+ Insecure Registries:
+  ::1/128
+  127.0.0.0/8
+ Live Restore Enabled: false
+ Product License: Community Engine
+ Default Address Pools:
+   Base: 192.168.97.0/24, Size: 24
+   Base: 192.168.107.0/24, Size: 24
+   Base: 192.168.117.0/24, Size: 24
+   Base: 192.168.147.0/24, Size: 24
+   Base: 192.168.148.0/24, Size: 24
+   Base: 192.168.155.0/24, Size: 24
+   Base: 192.168.156.0/24, Size: 24
+   Base: 192.168.158.0/24, Size: 24
+   Base: 192.168.163.0/24, Size: 24
+   Base: 192.168.164.0/24, Size: 24
+   Base: 192.168.165.0/24, Size: 24
+   Base: 192.168.166.0/24, Size: 24
+   Base: 192.168.167.0/24, Size: 24
+   Base: 192.168.171.0/24, Size: 24
+   Base: 192.168.172.0/24, Size: 24
+   Base: 192.168.181.0/24, Size: 24
+   Base: 192.168.183.0/24, Size: 24
+   Base: 192.168.186.0/24, Size: 24
+   Base: 192.168.207.0/24, Size: 24
+   Base: 192.168.214.0/24, Size: 24
+   Base: 192.168.215.0/24, Size: 24
+   Base: 192.168.216.0/24, Size: 24
+   Base: 192.168.223.0/24, Size: 24
+   Base: 192.168.227.0/24, Size: 24
+   Base: 192.168.228.0/24, Size: 24
+   Base: 192.168.229.0/24, Size: 24
+   Base: 192.168.237.0/24, Size: 24
+   Base: 192.168.239.0/24, Size: 24
+   Base: 192.168.242.0/24, Size: 24
+   Base: 192.168.247.0/24, Size: 24
+   Base: fd07:b51a:cc66:d000::/56, Size: 64
+
+WARNING: DOCKER_INSECURE_NO_IPTABLES_RAW is set
+```
 
 
-- [] Docker 설치/점검
-- [] hello-world 실행
-- [] Dockerfile 빌드/실행
-- [] 포트 매핑 접속(2회)
-- [] 바인드 마운트 반영
-- [] 볼륨 영속성
-- [] Git 설정 + VSCode GitHub 연동
+### Docker 기본 운영 명령 수행
+**이미지: 다운로드/목록 확인 (예: docker images)**
+```bash
+$ docker images         
+REPOSITORY    TAG       IMAGE ID       CREATED       SIZE
+hello-world   latest    e2ac70e7319a   2 weeks ago   10.1kB
+
+$ docker image rm hello-world
+Error response from daemon: conflict: unable to remove repository reference "hello-world" (must force) - container a2fcfac74427 is using its referenced image e2ac70e7319a
+
+$ docker image rm -f hello-world
+Untagged: hello-world:latest
+Untagged: hello-world@sha256:452a468a4bf985040037cb6d5392410206e47db9bf5b7278d281f94d1c2d0931
+Deleted: sha256:e2ac70e7319a02c5a477f5825259bd118b94e8b02c279c67afa63adab6d8685b
+
+$ docker image ls
+REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
+
+$ docker pull hello-world
+Using default tag: latest
+^[[Alatest: Pulling from library/hello-world
+4f55086f7dd0: Already exists 
+Digest: sha256:452a468a4bf985040037cb6d5392410206e47db9bf5b7278d281f94d1c2d0931
+Status: Downloaded newer image for hello-world:latest
+docker.io/library/hello-world:latest
+
+$ docker images          
+REPOSITORY    TAG       IMAGE ID       CREATED       SIZE
+hello-world   latest    e2ac70e7319a   2 weeks ago   10.1kB
+```
+
+**컨테이너: 실행/중지/목록 확인 (예: docker ps, docker ps -a)**
+```bash
+#실행 중인 컨테이너 출력
+$ docker ps             
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+#실행 중, 정지된 컨테이너를 모두 출력
+$ docker ps -a          
+CONTAINER ID   IMAGE         COMMAND    CREATED              STATUS                          PORTS     NAMES
+65111c842a30   hello-world   "/hello"   33 seconds ago       Exited (0) 33 seconds ago                 sweet_nobel
+a2fcfac74427   hello-world   "/hello"   About a minute ago   Exited (0) About a minute ago             vibrant_mcnulty
+
+#필터링된 컨테이너를 출력
+$ docker ps -af 'name=vibrant_mcnulty'
+CONTAINER ID   IMAGE         COMMAND    CREATED          STATUS                      PORTS     NAMES
+a2fcfac74427   hello-world   "/hello"   21 minutes ago   Exited (0) 21 minutes ago             vibrant_mcnulty
+
+#컨테이너 실행/중지
+$ docker start my-ubuntu
+my-ubuntu
+$ docker ps             
+CONTAINER ID   IMAGE     COMMAND            CREATED         STATUS         PORTS     NAMES
+09ab547de0b0   ubuntu    "sleep infinity"   2 minutes ago   Up 2 seconds             my-ubuntu
+$ docker stop my-ubuntu
+my-ubuntu
+$ docker ps            
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+```
+
+**운영: 로그 확인 (예: docker logs), 리소스 확인 (예: docker stats)**
+```bash
+$ docker logs 65111c842a30
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+
+$ docker stats
+CONTAINER ID   NAME        CPU %     MEM USAGE / LIMIT   MEM %     NET I/O         BLOCK I/O     PIDS 
+09ab547de0b0   my-ubuntu   0.00%     956KiB / 15.67GiB   0.01%     1.13kB / 126B   2.51MB / 0B   1 
+```
+
+### 컨테이너 실행 실습
+**hello-wolrd 실행 성공 기록**
+```bash
+$ docker run hello-world
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+```
+**ubuntu 컨테이너를 실행 및 동작**
+```bash
+$ docker run -it --name my-ubuntu ubuntu
+Unable to find image 'ubuntu:latest' locally
+latest: Pulling from library/ubuntu
+689b91d88a0f: Pull complete 
+Digest: sha256:84e77dee7d1bc93fb029a45e3c6cb9d8aa4831ccfcc7103d36e876938d28895b
+Status: Downloaded newer image for ubuntu:latest
+$ ls
+bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+$ echo "hello world"
+hello world
+$ echo "hello" > hello.txt
+$ cat hello.txt 
+hello
+$ exit
+```
+
+
+**컨테이너 종료/유지(attach/exec 등)의 차이를 스스로 관찰하고 간단히 정리한다**
+> *attach*
+> - 실행된 컨테이너의 메인 프로세스의 표준 입력, 표준 출력, 표준 에러에 터미널을 직접 연결  
+> - 메인 프로세스를 종료 시키면 컨테이너도 종료됨  
+
+> *exec*
+> - 실행 중인 컨테이너 안에 새로운 프로세스를 추가로 실행
+> - exec로 실행한 명령이 끝나도 메인 프로세스는 살아 있으므로 컨테이너는 유지됨
+
+```bash
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND            CREATED          STATUS          PORTS     NAMES
+f3a3518a4e98   ubuntu    "/bin/bash"        13 minutes ago   Up 10 minutes             my-ubuntu2
+09ab547de0b0   ubuntu    "sleep infinity"   20 minutes ago   Up 7 minutes              my-ubuntu
+$ docker exec -it my-ubuntu bash
+root@09ab547de0b0:/# ps aux
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.0   2704   132 ?        Ss   14:43   0:00 sleep infinit
+root           7  0.0  0.0   4596  4116 pts/0    Ss   14:52   0:00 bash
+root          15  0.0  0.0   7896  4196 pts/0    R+   14:52   0:00 ps aux
+root@09ab547de0b0:/# exit
+exit
+$ docker ps                     
+CONTAINER ID   IMAGE     COMMAND            CREATED          STATUS          PORTS     NAMES
+f3a3518a4e98   ubuntu    "/bin/bash"        21 minutes ago   Up 19 minutes             my-ubuntu2
+09ab547de0b0   ubuntu    "sleep infinity"   29 minutes ago   Up 16 minutes             my-ubuntu
+```
+
+
+### 기존 Dockerfile 기반 커스텀 이미지 제작
+
+### 포트 매핑 및 접속 증거
+
+### Docker 볼륨 영속성 검증
+
+### Git 설정 및 GitHub 연동
 
 ### 검증 방법 + 결과 위치 링크
 
