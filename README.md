@@ -456,3 +456,13 @@ To https://github.com/heejeong13/codyssey.git
 <img width="447" height="505" alt="Image" src="https://github.com/user-attachments/assets/1a593e8b-98d7-43a2-92e1-567e4cc620fb" />
 
 ### 트러블 슈팅 2건 이상(문제, 원인가설, 확인, 해결/대안)
+**문제**) 웹 서버 구동 시 작성한 index.html 페이지가 보이지 않음  
+<img width="777" height="362" alt="Image" src="https://github.com/user-attachments/assets/80625bde-9297-4fec-8c68-64f932bb1370" />
+
+> 작성한 index.html 파일의 내용을 정상적으로 불러오지 못함.  
+> 원인 가설1) 문법 오류 -> html 오류 없음   
+> 원인 가설2) 파일 위치 오류
+
+**해결**  
+파일이 app 폴더 하위에 없어서 발생한 오류로 파일 위치 변경 후 문제 해결  
+<img width="778" height="360" alt="Image" src="https://github.com/user-attachments/assets/cd89de5e-0741-4d00-97fa-6693553e294a" />
