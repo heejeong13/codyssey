@@ -12,8 +12,8 @@
 ## 3. 수행 체크리스트
 - [x] 터미널 조작 로그
 - [x] Docker 운영/검증 로그
-- [] Dockerfile 기반 웹 서버 컨테이너
-- [] 포트 매핑 접속 증거
+- [x] Dockerfile 기반 웹 서버 컨테이너
+- [x] 포트 매핑 접속 증거
 - [] 바인드 마운트 반영 + 볼륨 영속성 증거
 - [x] Git 설정 및 GitHub/VSCode 연동 증거
 
@@ -420,11 +420,58 @@ f3a3518a4e98   ubuntu    "/bin/bash"        21 minutes ago   Up 19 minutes      
 09ab547de0b0   ubuntu    "sleep infinity"   29 minutes ago   Up 16 minutes             my-ubuntu
 ```
 
+### 기존 Dockerfile 기반 커스텀 이미지 제작 
+*Dockerfile*
+```bash
+FROM nginx:alpine
+# ./app폴더의 내용을 Nginx의 기본 웹 루트 디렉토리로 복사
+COPY ./app /usr/share/nginx/html
+```
+*Index.html*
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Docker 웹 서버</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; margin-top: 50px; }
+        h1 { color: #0db7ed; }
+    </style>
+</head>
+<body>
+    <h1> Hello, Docker</h1>
+    <p> Welcome to the Codyssey!!</p>
+</body>
+</html>
+```
 
-### 기존 Dockerfile 기반 커스텀 이미지 제작
+
+```bash
+#Dockerfile을 이용해 my-server 이미지 생성
+$ docker build -t my-server .
+[+] Building 2.3s (7/7) FINISHED                                                  docker:orbstack
+ => [internal] load build definition from Dockerfile                                         0.1s
+ => => transferring dockerfile: 167B                                                         0.0s
+ => [internal] load metadata for docker.io/library/nginx:alpine                              1.6s
+ => [internal] load .dockerignore                                                            0.1s
+ => => transferring context: 2B                                                              0.0s
+ => [internal] load build context                                                            0.1s
+ => => transferring context: 59B                                                             0.0s
+ => [1/2] FROM docker.io/library/nginx:alpine@sha256:645eda1c2477aaa9b879f73909b9222c6f1979  0.0s
+ => CACHED [2/2] COPY ./app /usr/share/nginx/html                                            0.0s
+ => exporting to image                                                                       0.1s
+ => => exporting layers                                                                      0.0s
+ => => writing image sha256:2c15f38f234aff5cbe344e585f88deb0a9d44affe166c8e28bd6ed781362da0  0.0s
+ => => naming to docker.io/library/my-server                                                 0.0s
+
+#컨테이너를 백그라운드에서 실행
+$ docker run -d -p 8080:80 --name my-app my-server    
+2617e98a2b6c257928d052935eb052dd8eb87d47c4f8328aa24e8f8aca4101f4
+```
 
 ### 포트 매핑 및 접속 증거
-
+<img width="778" height="360" alt="Image" src="https://github.com/user-attachments/assets/cd89de5e-0741-4d00-97fa-6693553e294a" />
 ### Docker 볼륨 영속성 검증
 
 ### Git 설정 및 GitHub 연동
