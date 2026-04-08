@@ -15,7 +15,7 @@
 - [] Dockerfile 기반 웹 서버 컨테이너
 - [] 포트 매핑 접속 증거
 - [] 바인드 마운트 반영 + 볼륨 영속성 증거
-- [] Git 설정 및 GitHub/VSCode 연동 증거
+- [x] Git 설정 및 GitHub/VSCode 연동 증거
 
 ## 4. 수행로그
 ### 터미널 조작 로그 기록
@@ -428,5 +428,31 @@ f3a3518a4e98   ubuntu    "/bin/bash"        21 minutes ago   Up 19 minutes      
 ### Docker 볼륨 영속성 검증
 
 ### Git 설정 및 GitHub 연동
+```bash
+#git 설정
+$ git config --global user.email "heejeong"
+$ git config --global user.email "kosigi19@gmail.com"
+$ git config --global init.defaultBranch main
+$ git config -l                           
+user.name=heejeong
+user.email=kosigi19@gmail.com
+init.defaultbranch=main
+
+#git 연동 확인
+$ git add .
+$ git commit -m "docs: 수정"
+$ git push origin       
+오브젝트 나열하는 중: 5, 완료.
+오브젝트 개수 세는 중: 100% (5/5), 완료.
+Delta compression using up to 6 threads
+오브젝트 압축하는 중: 100% (2/2), 완료.
+오브젝트 쓰는 중: 100% (3/3), 280 bytes | 280.00 KiB/s, 완료.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/heejeong13/codyssey.git
+   bd5ddaf..7091160  main -> main
+```
+*GitHub - VSCode 연동 확인*  
+<img width="447" height="505" alt="Image" src="https://github.com/user-attachments/assets/1a593e8b-98d7-43a2-92e1-567e4cc620fb" />
 
 ### 트러블 슈팅 2건 이상(문제, 원인가설, 확인, 해결/대안)
