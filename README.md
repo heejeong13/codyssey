@@ -211,7 +211,6 @@ Server:
  CPUs: 6
  Total Memory: 15.67GiB
  Name: orbstack
- ID: 5526200e-e51a-4c27-907d-02b9338f72a1
  Docker Root Dir: /var/lib/docker
  Debug Mode: false
  Experimental: false
@@ -477,8 +476,38 @@ $ docker run -d -p 8080:80 --name my-app my-server
 ```
 
 ### 포트 매핑 및 접속 증거
-<img width="778" height="360" alt="Image" src="https://github.com/user-attachments/assets/cd89de5e-0741-4d00-97fa-6693553e294a" />
-### Docker 볼륨 영속성 검증
+<img width="778" height="360" alt="Image" src="https://github.com/user-attachments/assets/cd89de5e-0741-4d00-97fa-6693553e294a" />  
+
+### Docker 바인드 마운트 검증
+*코드를 수정하고 저장하는 즉시 실행 중인 컨테이너에 반영, 이미지를 다시 빌드하고 컨테이너를 재시작할 필요가 없음*
+```
+$ docker run -d -p 8080:80 --name my-app -v $(pwd)/app:/usr/share/nginx/html my-server
+d8802aa6a86d1d136e05fa2caa23f2bb1c8925d89b2ad26a0d466243c10b1147
+$ cd app 
+$ vi index.html 
+$ curl http://localhost:8080
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Docker 웹 서버</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; margin-top: 50px; }
+        h1 { color: #0db7ed; }
+    </style>
+</head>
+<body>
+    <h1> Hello, Docker</h1>
+    <p> Welcome to the Codyssey!!</p>
+    <h1>Version 1.1</h1>
+</body>
+</html>
+```
+
+### Docker  볼륨 영속성 검증
+Docker 볼륨: 생성/연결/검증 명령 + 컨테이너 삭제 전/후 비교
+
+
 
 ### Git 설정 및 GitHub 연동
 ```bash
@@ -508,7 +537,7 @@ To https://github.com/heejeong13/codyssey.git
 *GitHub - VSCode 연동 확인*  
 <img width="447" height="505" alt="Image" src="https://github.com/user-attachments/assets/1a593e8b-98d7-43a2-92e1-567e4cc620fb" />
 
-### 트러블 슈팅 2건 이상(문제, 원인가설, 확인, 해결/대안)
+### 트러블 슈팅
 **문제**) 웹 서버 구동 시 작성한 index.html 페이지가 보이지 않음  
 <img width="777" height="362" alt="Image" src="https://github.com/user-attachments/assets/80625bde-9297-4fec-8c68-64f932bb1370" />
 
