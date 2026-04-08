@@ -421,6 +421,12 @@ f3a3518a4e98   ubuntu    "/bin/bash"        21 minutes ago   Up 19 minutes      
 ```
 
 ### 기존 Dockerfile 기반 커스텀 이미지 제작 
+*디렉토리 구조*  
+my-web  
+├── app  
+│   └── index.html  
+└── Dockerfile  
+
 *Dockerfile*
 ```bash
 FROM nginx:alpine
