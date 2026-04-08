@@ -4,11 +4,10 @@
 ## 1.프로젝트 개요
 
 ## 2.실행 환경
-- OS
-- Shell
-- Terminal
-- Docker Version
-- Git Version
+- OS : macOS 15.7.4
+- Shell : zsh 5.9
+- Docker : 28.5.2
+- Git : 2.53.0
 
 ## 3. 수행 체크리스트
 - [x] 터미널 기본 조작 및 폴더 구성
@@ -111,10 +110,31 @@ $ cat test.txt
 hello
 ```
 
+### 권한 변경 실습
+>**[파일종류][소유자 권한][그룹 권한][기타 사용자 권한]**  
+>*첫 번째 문자: 파일 종류*  
+>\- : 일반 파일 (file)  
+>d : 디렉토리 (directory)  
+>l : 심볼릭 링크 (symbolic link)  
+>*두 번째 ~ 네 번째 문자: 소유자 권한*  
+>*다섯 번째 ~ 일곱 번째 문자: 그룹 권한*  
+>*여덟 번째 ~ 열 번째 문자: 기타 사용자 권한*
+```bash
+$ ls -l
+total 0
+-rw-r--r--  1 kosigi198323  kosigi198323   0  4  8 20:09 file0.txt
+drwxr-xr-x  2 kosigi198323  kosigi198323  64  4  8 20:16 rename
+
+$ chmod 754 file0.txt 
+$ chmod 644 rename 
+$ ls -l
+total 0
+-rwxr-xr--  1 kosigi198323  kosigi198323   0  4  8 20:09 file0.txt
+drw-r--r--  2 kosigi198323  kosigi198323  64  4  8 20:16 rename
+```
 
 
 
-- [] 권한 변경 실습
 - [] Docker 설치/점검
 - [] hello-world 실행
 - [] Dockerfile 빌드/실행
