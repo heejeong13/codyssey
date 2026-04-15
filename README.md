@@ -593,7 +593,7 @@ To https://github.com/heejeong13/codyssey.git
 <img width="447" height="505" alt="Image" src="https://github.com/user-attachments/assets/1a593e8b-98d7-43a2-92e1-567e4cc620fb" />
 
 ### 트러블 슈팅
-**문제**) 웹 서버 구동 시 작성한 index.html 페이지가 보이지 않음  
+**문제**) 웹 서버 구동 시 작성한 index.html 페이지가 보이지 않음
 <img width="777" height="362" alt="Image" src="https://github.com/user-attachments/assets/80625bde-9297-4fec-8c68-64f932bb1370" />
 
 > 작성한 index.html 파일의 내용을 정상적으로 불러오지 못함.  
@@ -601,5 +601,27 @@ To https://github.com/heejeong13/codyssey.git
 > 원인 가설2) 파일 위치 오류
 
 **해결**  
-파일이 app 폴더 하위에 없어서 발생한 오류로 파일 위치 변경 후 문제 해결  
+> 파일이 app 폴더 하위에 없어서 발생한 오류로 파일 위치 변경 후 문제 해결  
 <img width="778" height="360" alt="Image" src="https://github.com/user-attachments/assets/cd89de5e-0741-4d00-97fa-6693553e294a" />
+
+
+**문제**) GitHub에서 git clone으로 가져온 프로젝트에서 작업했다.
+git add와 git commit으로 내 컴퓨터(로컬 저장소)에는 변경사항을 성공적으로 저장했다.
+하지만 git push 명령어로 GitHub(원격 저장소)에 올리려고 하면, 에러가 발생하며 실패한다.
+
+> 가설 1) 해당 저장소에 쓰기 권한 없음  
+> 가설 2) 로컬 저장소와 원격 저장소의 상태가 다름  
+> 가설 3) 인증 정보 오류  
+
+**해결**
+> Make sure you configure your "user.name" and "user.email" in git.  
+메시지를 확인하였고, 변경사항을 기록할때는 이 기록에 사용자 정보가 필요한데 설정을 하지 않아 발생하는 오류 메세지였다.
+git config --global user.name
+git config --global user.email
+위 커맨드를 사용하여 개인 정보를 입력하였고 정상동작하였음.
+
+
+
+
+
+
