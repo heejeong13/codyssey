@@ -2,6 +2,9 @@
 코디세이 과제 제출용
 
 ## 1.프로젝트 개요
+터미널로 작업 디렉토리와 권한을 정리한 뒤, Docker를 설치 및 점검하고 컨테이너를 실행/관리 합니다.
+간단한 웹서버를 컨테이너화하고, 포트 매핑으로 접속을 확인하며, 바인드 마운트와 볼륨으로 변경 반영과 데이터 영속성을 직접 검증합니다.
+같은 서비스를 다른 환경에서도 재현되는 방식을 경험하는 것이 목표입니다.
 
 ## 2.실행 환경
 - OS : macOS 15.7.4
@@ -14,7 +17,7 @@
 - [x] Docker 운영/검증 로그
 - [x] Dockerfile 기반 웹 서버 컨테이너
 - [x] 포트 매핑 접속 증거
-- [] 바인드 마운트 반영 + 볼륨 영속성 증거
+- [x] 바인드 마운트 반영 + 볼륨 영속성 증거
 - [x] Git 설정 및 GitHub/VSCode 연동 증거
 
 ## 4. 수행로그
@@ -421,10 +424,12 @@ f3a3518a4e98   ubuntu    "/bin/bash"        21 minutes ago   Up 19 minutes      
 
 ### 기존 Dockerfile 기반 커스텀 이미지 제작 
 *디렉토리 구조*  
+```
 my-web  
 ├── app  
 │   └── index.html  
 └── Dockerfile  
+```
 
 *Dockerfile*
 ```bash
@@ -505,14 +510,64 @@ $ curl http://localhost:8080
 ```
 
 ### Docker  볼륨 영속성 검증
-Docker 볼륨: 생성/연결/검증 명령 + 컨테이너 삭제 전/후 비교
+*Docker 볼륨: 생성/연결/검증 명령 + 컨테이너 삭제 전/후 비교*
+```bash
+#볼륨 생성
+$ docker volume create new-volume
+#볼륨 연결
+$ docker run -d -p 8080:80 -v new-volume:/usr/share/nginx/html --name my-app my-server
+#볼륨 검증
+#호스트의 index.html 파일을 컨테이너의 웹 루트 폴더로 복사
+$ docker cp ./index.html my-app:/usr/share/nginx/html/
+#index.html 직접 수정(컨테이너의 웹 루트 파일을 수정하는 또 다른 방법임)
+$ docker exec -it my-app /bin/sh -c "echo '<h1>hello, Docker from exec</h1>' > /usr/share/nginx/html/index.html"
+#컨테이너 삭제 전 index.html
+$ curl http://localhost:8080
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Docker 웹 서버</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; margin-top: 50px; }
+        h1 { color: #0db7ed; }
+    </style>
+</head>
+<body>
+    <h1> Hello, Docker</h1>
+    <p> Welcome to the Codyssey!!</p>
+    <p> volume test</p>
+</body>
+</html>
 
-
+#컨테이너 삭제
+$ docker rm -f my-app
+#컨테이너 재실행
+$ docker run -d -p 8080:80 -v new-volume:/usr/share/nginx/html --name my-app my-server
+#컨테이너 삭제 후 재실행 시 index.html
+$ curl http://localhost:8080
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Docker 웹 서버</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; margin-top: 50px; }
+        h1 { color: #0db7ed; }
+    </style>
+</head>
+<body>
+    <h1> Hello, Docker</h1>
+    <p> Welcome to the Codyssey!!</p>
+    <p> volume test</p>
+</body>
+</html>
+```
 
 ### Git 설정 및 GitHub 연동
 ```bash
 #git 설정
-$ git config --global user.email "heejeong"
+$ git config --global user.name "heejeong"
 $ git config --global user.email "kosigi19@gmail.com"
 $ git config --global init.defaultBranch main
 $ git config -l                           
